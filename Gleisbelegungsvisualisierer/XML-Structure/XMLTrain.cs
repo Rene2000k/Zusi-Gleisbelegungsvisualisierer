@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Gleisbelegungsvisualisierer.XML_Structure
@@ -25,7 +22,7 @@ namespace Gleisbelegungsvisualisierer.XML_Structure
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("Zug: [Gattung: '{0}', Nummer: '{1}', Zuglauf: '{2}', [", TrainType, TrainNumber, TrainRun);
-            foreach(TimetableEntry timetableEntry in TimetableEntries)
+            foreach (TimetableEntry timetableEntry in TimetableEntries)
             {
                 sb.Append(timetableEntry.ToString());
             }

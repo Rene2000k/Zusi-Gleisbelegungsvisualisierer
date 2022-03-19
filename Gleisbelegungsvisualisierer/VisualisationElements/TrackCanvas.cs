@@ -1,9 +1,6 @@
 ﻿using Gleisbelegungsvisualisierer.XML_Structure;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -13,7 +10,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
      * This is representing a track column in the visualisation
      * It is filled with all trains that occupy the track associated with this column
      */
-    public class TrackCanvas: Canvas
+    public class TrackCanvas : Canvas
     {
         public const int PIXEL_FOR_MINUTE = 10;
         public const int WIDTH = 300;
@@ -35,7 +32,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
 
         private void AddTrackOccupations(List<TrackOccupation> trackOccupations)
         {
-            foreach(TrackOccupation trackOccupation in trackOccupations)
+            foreach (TrackOccupation trackOccupation in trackOccupations)
             {
                 DateTime departure = trackOccupation.Departure;
                 DateTime arrival = trackOccupation.Arrival;
@@ -47,12 +44,12 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
                 string blockText = train.TrainType + " " + train.TrainNumber + "\n" + train.TrainRun + "\n" +
                     "Ankunft: " + arrival.TimeOfDay.ToString(@"hh\:mm") + "\n" +
                     "Abfahrt: " + departure.TimeOfDay.ToString(@"hh\:mm");
-                text.Text = blockText; 
+                text.Text = blockText;
                 Border block = new Border();
                 block.Child = text;
                 block.ToolTip = new ToolTip().Content = blockText;
                 FindHorizontalPosition(block, trackOccupation, trackOccupations);
-                switch(train.TrainType)
+                switch (train.TrainType)
                 {
                     case "ICE":
                         block.Background = new SolidColorBrush(Colors.Red);
@@ -80,7 +77,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             }
         }
 
-        
+
         private void FindHorizontalPosition(Border border, TrackOccupation currentTO, List<TrackOccupation> trackOccupations)
         {
             //Prerequisite: trackOccupations is sorted by arrival time
@@ -89,11 +86,11 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             List<TrackOccupation> overlappingTOs = new List<TrackOccupation>();
             TimeSpan currentTOArrival = currentTO.Arrival.TimeOfDay;
             TimeSpan currentTODeparture = currentTO.Departure.TimeOfDay;
-            foreach(TrackOccupation trackOccupation in trackOccupations)
+            foreach (TrackOccupation trackOccupation in trackOccupations)
             {
                 TimeSpan arrival = trackOccupation.Arrival.TimeOfDay;
                 TimeSpan departure = trackOccupation.Departure.TimeOfDay;
-                if(((currentTOArrival >= arrival && currentTOArrival <= departure) || (currentTODeparture >= arrival && currentTODeparture <= departure))
+                if (((currentTOArrival >= arrival && currentTOArrival <= departure) || (currentTODeparture >= arrival && currentTODeparture <= departure))
                     && trackOccupation.HorizontalPositionOnCanvas != -1)
                 {
                     overlappingTOs.Add(trackOccupation);

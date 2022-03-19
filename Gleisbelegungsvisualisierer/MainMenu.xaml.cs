@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -21,7 +20,7 @@ namespace Gleisbelegungsvisualisierer
         {
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if(result == System.Windows.Forms.DialogResult.OK)
+            if (result == System.Windows.Forms.DialogResult.OK)
             {
                 TextBoxTimetablePath.Text = dialog.SelectedPath;
             }
@@ -30,7 +29,7 @@ namespace Gleisbelegungsvisualisierer
         private void ButtonAddNewOperatingSite_Click(object sender, RoutedEventArgs e)
         {
             string newOperatingSiteName = TextBoxNewOperatingSiteName.Text;
-            if(newOperatingSiteName != "")
+            if (newOperatingSiteName != "")
             {
                 MainWindow.AddOperatingSite(newOperatingSiteName);
                 ListViewOpperatingSites.SelectedItem = MainWindow.OperatingSites.Last();

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Gleisbelegungsvisualisierer.VisualisationElements
@@ -13,7 +8,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
      *  Additionally it creates a field for text above the canvas, primarily used for the track names, and a border around everything
      *  It is used for the timeline and all track columns
      */
-    public class Column: Border
+    public class Column : Border
     {
         public const int BORDER_THICKNESS = 2;
 
@@ -21,7 +16,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
         {
             Width = width;
             BorderBrush = new SolidColorBrush(Colors.Black);
-            BorderThickness = new System.Windows.Thickness{ Top = BORDER_THICKNESS, Bottom = BORDER_THICKNESS, Left = BORDER_THICKNESS, Right = 0 };
+            BorderThickness = new System.Windows.Thickness { Top = BORDER_THICKNESS, Bottom = BORDER_THICKNESS, Left = BORDER_THICKNESS, Right = 0 };
 
             Grid column = new Grid();
             RowDefinition firstRow = new RowDefinition();

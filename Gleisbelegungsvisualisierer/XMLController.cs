@@ -2,10 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Gleisbelegungsvisualisierer
@@ -16,34 +12,41 @@ namespace Gleisbelegungsvisualisierer
         const string SETTINGS_FILE_NAME = "userPreferences.xml";
 
         private XmlSerializer zusiDeserializer;
-        private XmlSerializer seetingsSerializer;
+        private XmlSerializer settingsSerializer;
         public XMLController()
         {
             zusiDeserializer = new XmlSerializer(typeof(Zusi));
-            seetingsSerializer = new XmlSerializer(typeof(UserSettings));
+            settingsSerializer = new XmlSerializer(typeof(UserSettings));
         }
 
         public void SerializeSettingsToFile(UserSettings settings)
-        {
+        {       
             using (StreamWriter sw = new StreamWriter(SETTINGS_FILE_NAME))
             {
-                seetingsSerializer.Serialize(sw, settings);
-            }              
+                settingsSerializer.Serialize(sw, settings);
+            }      
         }
 
         public UserSettings DeserializeSettingsFromFile()
         {
-            using (Stream reader = new FileStream(SETTINGS_FILE_NAME, FileMode.Open))
+            try
             {
-                //Console.WriteLine(fileName);
-                return (UserSettings)seetingsSerializer.Deserialize(reader);
+                using (Stream reader = new FileStream(SETTINGS_FILE_NAME, FileMode.Open))
+                {
+                    return (UserSettings)settingsSerializer.Deserialize(reader);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                return new UserSettings(new List<OperatingSite>(), "");
             }
         }
+
 
         public void GetTrackOccupationsForOperatingSite(string folderPath, OperatingSite operatingSite)
         {
             string[] allFileNames = GetAllFilesInDirectory(folderPath);
-            foreach(string fileName in allFileNames)
+            foreach (string fileName in allFileNames)
             {
                 Zusi deserializedTrain = DeserializeFile(fileName);
                 AnalyseTrain(deserializedTrain, operatingSite);
@@ -56,7 +59,7 @@ namespace Gleisbelegungsvisualisierer
             {
                 return Directory.GetFiles(folderPath, TRAIN_FILE_ENING);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new string[0];
             }
@@ -74,13 +77,13 @@ namespace Gleisbelegungsvisualisierer
         private void AnalyseTrain(Zusi deserializedTrain, OperatingSite operatingSite)
         {
             //Console.WriteLine(deserializedTrain.ToString());
-            foreach(TimetableEntry timetableEntry in deserializedTrain.Train.TimetableEntries)
+            foreach (TimetableEntry timetableEntry in deserializedTrain.Train.TimetableEntries)
             {
-                if(timetableEntry.OperatingSite == operatingSite.Name)
+                if (timetableEntry.OperatingSite == operatingSite.Name)
                 {
                     foreach (TimetableSignalEntry signal in timetableEntry.TimetableSignalEntries)
                     {
-                        foreach(Track track in operatingSite.Tracks)
+                        foreach (Track track in operatingSite.Tracks)
                         {
                             GenerateTrackOccupation(track, signal, timetableEntry, deserializedTrain);
                         }
@@ -106,16 +109,15 @@ namespace Gleisbelegungsvisualisierer
                 }
                 if (arrival != null || departure != null)
                 {
-                    if(arrival == null)
+                    if (arrival == null)
                     {
                         arrival = departure.Value.Add(new TimeSpan(0, -1, 0));
                     }
-                    if(departure == null)
+                    if (departure == null)
                     {
                         departure = arrival.Value.Add(new TimeSpan(0, 1, 0));
                     }
                     TrackOccupation trackOccupation = track.AddTrackOccupation(arrival.Value, departure.Value, xmlTrain);
-                    Console.WriteLine(trackOccupation.ToString());
                 }
             }
         }

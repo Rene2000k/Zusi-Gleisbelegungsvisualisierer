@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -11,7 +7,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
     /*
      *  This Element is representing the timeline on the left side
      */
-    class TimelineCanvas: Canvas
+    class TimelineCanvas : Canvas
     {
         private const int WIDTH = 50;
 
@@ -33,7 +29,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
         private void CreateHours()
         {
             //calculate reamining minutes to next full hour from start time
-            int minutesToFirstHour = (int) (60 - StartTime.TotalMinutes) % 60;
+            int minutesToFirstHour = (int)(60 - StartTime.TotalMinutes) % 60;
             TimeSpan timeSpan = StartTime.Add(new TimeSpan(0, minutesToFirstHour, 0));
             int numHour = 0;
             while (timeSpan <= EndTime)
@@ -46,7 +42,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
                 text.FontSize = 20;
                 border.Child = text;
                 Children.Add(border);
-                SetTop(border, numHour * 60 * TrackCanvas.PIXEL_FOR_MINUTE  + minutesToFirstHour * TrackCanvas.PIXEL_FOR_MINUTE);
+                SetTop(border, numHour * 60 * TrackCanvas.PIXEL_FOR_MINUTE + minutesToFirstHour * TrackCanvas.PIXEL_FOR_MINUTE);
                 numHour++;
                 timeSpan = timeSpan.Add(new TimeSpan(1, 0, 0));
             }

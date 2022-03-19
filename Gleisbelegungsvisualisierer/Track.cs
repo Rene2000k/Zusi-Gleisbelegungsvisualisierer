@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Xml.Serialization;
 
 namespace Gleisbelegungsvisualisierer
@@ -14,7 +11,7 @@ namespace Gleisbelegungsvisualisierer
     public class Track
     {
         //For XML-Serailization
-        private Track() 
+        private Track()
         {
             TrackOccupations = new List<TrackOccupation>();
         }
@@ -46,6 +43,11 @@ namespace Gleisbelegungsvisualisierer
         public void RemoveTrackOccupation(TrackOccupation trackOccupation)
         {
             TrackOccupations.Remove(trackOccupation);
+        }
+
+        public void RemoveAllTrackOccupations()
+        {
+            TrackOccupations.Clear();
         }
 
         public Column CreateColumn(TimeSpan startTime, TimeSpan endTime)

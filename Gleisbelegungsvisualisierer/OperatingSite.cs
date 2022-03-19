@@ -1,10 +1,6 @@
 ﻿using Gleisbelegungsvisualisierer.VisualisationElements;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace Gleisbelegungsvisualisierer
@@ -23,7 +19,7 @@ namespace Gleisbelegungsvisualisierer
         {
             Track track = new Track(name);
             Tracks.Add(track);
-            return track; 
+            return track;
         }
 
         public void RemoveTrack(Track track)
@@ -33,10 +29,10 @@ namespace Gleisbelegungsvisualisierer
 
         public TimeSpan FindStartTime()
         {
-            TimeSpan startingTime = new TimeSpan(24, 0, 0); 
-            foreach(Track track in Tracks)
+            TimeSpan startingTime = new TimeSpan(24, 0, 0);
+            foreach (Track track in Tracks)
             {
-                foreach(TrackOccupation trackOccupation in track.TrackOccupations)
+                foreach (TrackOccupation trackOccupation in track.TrackOccupations)
                 {
                     if (startingTime == null || (startingTime > trackOccupation.Arrival.TimeOfDay))
                     {
@@ -49,7 +45,7 @@ namespace Gleisbelegungsvisualisierer
 
         public TimeSpan FindEndTime()
         {
-            TimeSpan endingTime = new TimeSpan(0,0,0);
+            TimeSpan endingTime = new TimeSpan(0, 0, 0);
             foreach (Track track in Tracks)
             {
                 foreach (TrackOccupation trackOccupation in track.TrackOccupations)
@@ -63,7 +59,7 @@ namespace Gleisbelegungsvisualisierer
             return endingTime;
         }
 
-        internal void GenerateVisualisation(Visualisation visualisation)
+        public void GenerateVisualisation(Visualisation visualisation)
         {
             TimeSpan startTime = FindStartTime();
             TimeSpan endTime = FindEndTime();
@@ -77,6 +73,14 @@ namespace Gleisbelegungsvisualisierer
             {
                 Column trackOccupationColumn = track.CreateColumn(startTime, endTime);
                 visualisation.ContentPanel.Children.Add(trackOccupationColumn);
+            }
+        }
+
+        public void ResetTrackOccupations()
+        {
+            foreach (Track track in Tracks)
+            {
+                track.RemoveAllTrackOccupations();
             }
         }
 
