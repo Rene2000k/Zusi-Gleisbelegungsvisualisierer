@@ -1,7 +1,5 @@
-﻿using Gleisbelegungsvisualisierer.VisualisationElements;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 
 namespace Gleisbelegungsvisualisierer
 {
@@ -11,7 +9,7 @@ namespace Gleisbelegungsvisualisierer
         private OperatingSite() { }
         public OperatingSite(string name)
         {
-            this.Name = name;
+            Name = name;
             Tracks = new ObservableCollection<Track>();
         }
 
@@ -57,23 +55,6 @@ namespace Gleisbelegungsvisualisierer
                 }
             }
             return endingTime;
-        }
-
-        public void GenerateVisualisation(Visualisation visualisation)
-        {
-            TimeSpan startTime = FindStartTime();
-            TimeSpan endTime = FindEndTime();
-            TimelineCanvas timeline = new TimelineCanvas(startTime, endTime);
-            Column timelineColumn = new Column(timeline.Width, "", timeline);
-            DockPanel dp = new DockPanel();
-            DockPanel.SetDock(timelineColumn, Dock.Left);
-            dp.Children.Add(timelineColumn);
-            visualisation.ContentPanel.Children.Add(dp);
-            foreach (Track track in Tracks)
-            {
-                Column trackOccupationColumn = track.CreateColumn(startTime, endTime);
-                visualisation.ContentPanel.Children.Add(trackOccupationColumn);
-            }
         }
 
         public void ResetTrackOccupations()

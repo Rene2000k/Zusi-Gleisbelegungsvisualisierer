@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,11 +10,10 @@ namespace Gleisbelegungsvisualisierer
     /// </summary>
     public partial class MainMenu : UserControl
     {
-        public MainMenu(MainWindow mainWindow)
+        public MainMenu()
         {
             InitializeComponent();
-            MainWindow = mainWindow;
-            //TextBoxTimetablePath.Text = "C:\\Users\\Rene\\AppData\\Roaming\\Zusi3\\Timetables\\Deutschland\\SFS_Goettingen_Kassel\\SFS_Goettingen_Kassel_Expo_2000_05-15Uhr";
+            MainWindow = (MainWindow)DataContext;
         }
 
         private void ButtonSelectTimetablePath_Click(object sender, RoutedEventArgs e)
@@ -61,6 +61,26 @@ namespace Gleisbelegungsvisualisierer
             TextBoxNewSignalName.Text = "";
         }
 
+        private void ButtonDeleteOperatingSite_Click(object sender, RoutedEventArgs e)
+        {
+            OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
+            MainWindow.RemoveOperatingSite(selectedOperatingSite);
+        }
+
+        private void ButtonDeleteTrack_Click(object sender, RoutedEventArgs e)
+        {
+            OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
+            Track selectedTrack = (Track)ListViewTracks.SelectedItem;
+            selectedOperatingSite.RemoveTrack(selectedTrack);
+        }
+
+        private void ButtonDeleteSignal_Click(object sender, RoutedEventArgs e)
+        {
+            Track selectedTrack = (Track)ListViewTracks.SelectedItem;
+            string selectedSignal = (string)ListViewSignals.SelectedItem;
+            selectedTrack.RemoveSignal(selectedSignal);
+        }
+
         private void ListViewOpperatingSites_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
@@ -87,26 +107,7 @@ namespace Gleisbelegungsvisualisierer
             }
         }
 
-        private void ButtonDeleteOperatingSite_Click(object sender, RoutedEventArgs e)
-        {
-            OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
-            MainWindow.RemoveOperatingSite(selectedOperatingSite);
-        }
+        private MainWindow MainWindow { get; }
 
-        private void ButtonDeleteTrack_Click(object sender, RoutedEventArgs e)
-        {
-            OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
-            Track selectedTrack = (Track)ListViewTracks.SelectedItem;
-            selectedOperatingSite.RemoveTrack(selectedTrack);
-        }
-
-        private void ButtonDeleteSignal_Click(object sender, RoutedEventArgs e)
-        {
-            Track selectedTrack = (Track)ListViewTracks.SelectedItem;
-            string selectedSignal = (string)ListViewSignals.SelectedItem;
-            selectedTrack.RemoveSignal(selectedSignal);
-        }
-
-        public MainWindow MainWindow { get; }
     }
 }

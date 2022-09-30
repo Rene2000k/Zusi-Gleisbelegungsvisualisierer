@@ -4,7 +4,7 @@ using System.Windows.Media;
 namespace Gleisbelegungsvisualisierer.VisualisationElements
 {
     /*
-     *  This element is prepresenting a column with a canvas in it.
+     *  This element is representing a column with a canvas in it.
      *  Additionally it creates a field for text above the canvas, primarily used for the track names, and a border around everything
      *  It is used for the timeline and all track columns
      */

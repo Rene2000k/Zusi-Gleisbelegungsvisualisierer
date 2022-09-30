@@ -1,45 +1,18 @@
 ﻿using Gleisbelegungsvisualisierer.XML_Structure;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
 namespace Gleisbelegungsvisualisierer
 {
-    public class XMLController
+    public class ZusiController
     {
-        const string TRAIN_FILE_ENING = "*.trn";
-        const string SETTINGS_FILE_NAME = "userPreferences.xml";
+        private const string TRAIN_FILE_ENING = "*.trn";
 
         private XmlSerializer zusiDeserializer;
-        private XmlSerializer settingsSerializer;
-        public XMLController()
+        public ZusiController()
         {
             zusiDeserializer = new XmlSerializer(typeof(Zusi));
-            settingsSerializer = new XmlSerializer(typeof(UserSettings));
-        }
-
-        public void SerializeSettingsToFile(UserSettings settings)
-        {       
-            using (StreamWriter sw = new StreamWriter(SETTINGS_FILE_NAME))
-            {
-                settingsSerializer.Serialize(sw, settings);
-            }      
-        }
-
-        public UserSettings DeserializeSettingsFromFile()
-        {
-            try
-            {
-                using (Stream reader = new FileStream(SETTINGS_FILE_NAME, FileMode.Open))
-                {
-                    return (UserSettings)settingsSerializer.Deserialize(reader);
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                return new UserSettings(new List<OperatingSite>(), "");
-            }
         }
 
 
@@ -59,7 +32,7 @@ namespace Gleisbelegungsvisualisierer
             {
                 return Directory.GetFiles(folderPath, TRAIN_FILE_ENING);
             }
-            catch (Exception e)
+            catch
             {
                 return new string[0];
             }
@@ -69,14 +42,12 @@ namespace Gleisbelegungsvisualisierer
         {
             using (Stream reader = new FileStream(fileName, FileMode.Open))
             {
-                //Console.WriteLine(fileName);
                 return (Zusi)zusiDeserializer.Deserialize(reader);
             }
         }
 
         private void AnalyseTrain(Zusi deserializedTrain, OperatingSite operatingSite)
         {
-            //Console.WriteLine(deserializedTrain.ToString());
             foreach (TimetableEntry timetableEntry in deserializedTrain.Train.TimetableEntries)
             {
                 if (timetableEntry.OperatingSite == operatingSite.Name)
@@ -117,7 +88,7 @@ namespace Gleisbelegungsvisualisierer
                     {
                         departure = arrival.Value.Add(new TimeSpan(0, 1, 0));
                     }
-                    TrackOccupation trackOccupation = track.AddTrackOccupation(arrival.Value, departure.Value, xmlTrain);
+                    track.AddTrackOccupation(arrival.Value, departure.Value, xmlTrain);
                 }
             }
         }

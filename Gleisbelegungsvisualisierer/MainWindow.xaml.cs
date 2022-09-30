@@ -14,13 +14,15 @@ namespace Gleisbelegungsvisualisierer
         public MainWindow()
         {
             InitializeComponent();
-            XMLController = new XMLController();
+            SettingController = new SettingController();
 
-            UserSettings settings = XMLController.DeserializeSettingsFromFile();
+            UserSettings settings = SettingController.DeserializeSettingsFromFile();
             OperatingSites = new ObservableCollection<OperatingSite>(settings.OperatingSites);
 
-            MainMenu = new MainMenu(this);
-            Visualisation = new Visualisation(this, OperatingSites);
+            MainMenu = new MainMenu();
+            MainMenu.DataContext = this;
+            Visualisation = new Visualisation(OperatingSites);
+            Visualisation.DataContext = MainMenu;
 
             MainmenuTab.Content = MainMenu;
             MainMenu.ListViewOpperatingSites.ItemsSource = OperatingSites;
@@ -39,22 +41,15 @@ namespace Gleisbelegungsvisualisierer
             OperatingSites.Remove(operatingSite);
         }
 
-        public void StartAnalysing(OperatingSite operatingSite)
-        {
-            XMLController.GetTrackOccupationsForOperatingSite(MainMenu.TextBoxTimetablePath.Text, operatingSite);
-            operatingSite.GenerateVisualisation(Visualisation);
-        }
-
-
         private MainMenu MainMenu { get; }
         private Visualisation Visualisation { get; }
         internal ObservableCollection<OperatingSite> OperatingSites { get; }
-        private XMLController XMLController { get; }
+        private SettingController SettingController { get; }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             UserSettings settings = new UserSettings(OperatingSites.ToList(), MainMenu.TextBoxTimetablePath.Text);
-            XMLController.SerializeSettingsToFile(settings);
+            SettingController.SerializeSettingsToFile(settings);
         }
     }
 }

@@ -13,12 +13,13 @@ namespace Gleisbelegungsvisualisierer
         //For XML-Serailization
         private Track()
         {
+            // Generating an empty track occupation list while deserializing
             TrackOccupations = new List<TrackOccupation>();
         }
 
         public Track(string name)
         {
-            this.Name = name;
+            Name = name;
             Signals = new ObservableCollection<string>();
             TrackOccupations = new List<TrackOccupation>();
         }
@@ -50,13 +51,9 @@ namespace Gleisbelegungsvisualisierer
             TrackOccupations.Clear();
         }
 
-        public Column CreateColumn(TimeSpan startTime, TimeSpan endTime)
+        internal List<TrackOccupation> GetTrackOccupationsAsOrderedList()
         {
-            TrackOccupations = TrackOccupations.OrderBy(trackOccupation => trackOccupation.Arrival).ToList();
-            TrackCanvas canvas = new TrackCanvas();
-            canvas.PopulateCanvas(TrackOccupations, startTime, endTime);
-            TrackColumn = new Column(TrackCanvas.WIDTH + Column.BORDER_THICKNESS, Name, canvas);
-            return TrackColumn;
+            return TrackOccupations.OrderBy(trackOccupation => trackOccupation.Arrival).ToList();
         }
 
         public string Name { get; set; }
