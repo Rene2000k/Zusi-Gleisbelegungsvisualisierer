@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Gleisbelegungsvisualisierer.Model;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace Gleisbelegungsvisualisierer.XML_Structure

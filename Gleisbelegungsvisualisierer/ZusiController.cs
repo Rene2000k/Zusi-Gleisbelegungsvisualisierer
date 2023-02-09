@@ -1,4 +1,5 @@
-﻿using Gleisbelegungsvisualisierer.XML_Structure;
+﻿using Gleisbelegungsvisualisierer.Model;
+using Gleisbelegungsvisualisierer.XML_Structure;
 using System;
 using System.IO;
 using System.Xml.Serialization;

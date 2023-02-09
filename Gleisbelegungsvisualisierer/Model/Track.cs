@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace Gleisbelegungsvisualisierer
+namespace Gleisbelegungsvisualisierer.Model
 {
     public class Track
     {

@@ -1,4 +1,5 @@
-﻿using Gleisbelegungsvisualisierer.XML_Structure;
+﻿using Gleisbelegungsvisualisierer.Model;
+using Gleisbelegungsvisualisierer.XML_Structure;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;

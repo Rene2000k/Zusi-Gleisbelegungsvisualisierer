@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Controls;
 
-namespace Gleisbelegungsvisualisierer
+namespace Gleisbelegungsvisualisierer.Model
 {
     public class TrackOccupation
     {

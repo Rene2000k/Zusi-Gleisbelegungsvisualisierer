@@ -1,4 +1,5 @@
-﻿using Gleisbelegungsvisualisierer.VisualisationElements;
+﻿using Gleisbelegungsvisualisierer.Model;
+using Gleisbelegungsvisualisierer.VisualisationElements;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,8 +25,11 @@ namespace Gleisbelegungsvisualisierer
         {
             ContentPanel.Children.Clear();
             OperatingSite selectedOperatingSite = (OperatingSite)ComboBoxOperatingSites.SelectedItem;
-            selectedOperatingSite.ResetTrackOccupations();
-            StartAnalysing(selectedOperatingSite);
+            if (selectedOperatingSite != null)
+            {
+                selectedOperatingSite.ResetTrackOccupations();
+                StartAnalysing(selectedOperatingSite);
+            }
         }
 
         private void StartAnalysing(OperatingSite operatingSite)

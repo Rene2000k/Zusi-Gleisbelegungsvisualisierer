@@ -57,8 +57,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="SettingController.cs" />
-    <Compile Include="Track.cs" />
-    <Compile Include="TrackOccupation.cs" />
+    <Compile Include="Model\Track.cs" />
+    <Compile Include="Model\TrackOccupation.cs" />
     <Compile Include="VisualisationElements\TimelineCanvas.cs" />
     <Compile Include="VisualisationElements\TrackCanvas.cs" />
     <Compile Include="Visualisation.xaml.cs">
@@ -96,7 +96,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OperatingSite.cs" />
+    <Compile Include="Model\OperatingSite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

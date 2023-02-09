@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace Gleisbelegungsvisualisierer
+namespace Gleisbelegungsvisualisierer.Model
 {
     public class OperatingSite
     {
@@ -32,7 +32,7 @@ namespace Gleisbelegungsvisualisierer
             {
                 foreach (TrackOccupation trackOccupation in track.TrackOccupations)
                 {
-                    if (startingTime == null || (startingTime > trackOccupation.Arrival.TimeOfDay))
+                    if (startingTime == null || startingTime > trackOccupation.Arrival.TimeOfDay)
                     {
                         startingTime = trackOccupation.Arrival.TimeOfDay;
                     }
@@ -48,7 +48,7 @@ namespace Gleisbelegungsvisualisierer
             {
                 foreach (TrackOccupation trackOccupation in track.TrackOccupations)
                 {
-                    if (endingTime == null || (endingTime < trackOccupation.Departure.TimeOfDay))
+                    if (endingTime == null || endingTime < trackOccupation.Departure.TimeOfDay)
                     {
                         endingTime = trackOccupation.Departure.TimeOfDay;
                     }
