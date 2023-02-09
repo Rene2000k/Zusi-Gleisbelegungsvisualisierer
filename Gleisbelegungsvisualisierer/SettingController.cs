@@ -35,7 +35,7 @@ namespace Gleisbelegungsvisualisierer
             }
             catch (FileNotFoundException)
             {
-                return new UserSettings(new List<OperatingSite>(), "");
+                return new UserSettings(new List<OperatingSite>(), new List<string>());
             }
         }
     }

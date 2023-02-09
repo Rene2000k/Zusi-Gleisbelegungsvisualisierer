@@ -1,4 +1,5 @@
 ﻿using Gleisbelegungsvisualisierer.Model;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -11,10 +12,17 @@ namespace Gleisbelegungsvisualisierer
     /// </summary>
     public partial class MainMenu : UserControl
     {
-        public MainMenu()
+        public MainMenu(ObservableCollection<OperatingSite> operatingSites, ObservableCollection<string> timetablePaths)
         {
             InitializeComponent();
             MainWindow = (MainWindow)DataContext;
+
+            PathsToTimetableFolder = timetablePaths;
+
+            ListViewOpperatingSites.ItemsSource = operatingSites;
+            TextBoxTimetablePath.ItemsSource = timetablePaths;
+            TextBoxTimetablePath.Text = timetablePaths[0];
+
         }
 
         private void ButtonSelectTimetablePath_Click(object sender, RoutedEventArgs e)
@@ -24,6 +32,16 @@ namespace Gleisbelegungsvisualisierer
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 TextBoxTimetablePath.Text = dialog.SelectedPath;
+
+                if (!PathsToTimetableFolder.Contains(dialog.SelectedPath))
+                {
+                    PathsToTimetableFolder.Insert(0, dialog.SelectedPath);
+
+                    while (PathsToTimetableFolder.Count > MAX_LEN_TIMETABLE_LIST)
+                    {
+                        PathsToTimetableFolder.RemoveAt(PathsToTimetableFolder.Count - 1);
+                    }
+                }
             }
         }
 
@@ -78,7 +96,7 @@ namespace Gleisbelegungsvisualisierer
         private void ButtonDeleteSignal_Click(object sender, RoutedEventArgs e)
         {
             Track selectedTrack = (Track)ListViewTracks.SelectedItem;
-            string selectedSignal = (string)ListViewSignals.SelectedItem;
+            Signal selectedSignal = (Signal)ListViewSignals.SelectedItem;
             selectedTrack.RemoveSignal(selectedSignal);
         }
 
@@ -109,6 +127,8 @@ namespace Gleisbelegungsvisualisierer
         }
 
         private MainWindow MainWindow { get; }
+        private ObservableCollection<string> PathsToTimetableFolder { get; set; }
+        private const int MAX_LEN_TIMETABLE_LIST = 5;
 
     }
 }

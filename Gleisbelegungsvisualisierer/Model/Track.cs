@@ -20,18 +20,18 @@ namespace Gleisbelegungsvisualisierer.Model
         public Track(string name)
         {
             Name = name;
-            Signals = new ObservableCollection<string>();
+            Signals = new ObservableCollection<Signal>();
             TrackOccupations = new List<TrackOccupation>();
         }
 
         public void AddSignal(string name)
         {
-            Signals.Add(name);
+            Signals.Add(new Signal(name));
         }
 
-        public void RemoveSignal(string name)
+        public void RemoveSignal(Signal signal)
         {
-            Signals.Remove(name);
+            Signals.Remove(signal);
         }
 
         public TrackOccupation AddTrackOccupation(DateTime arrival, DateTime departure, XMLTrain train)
@@ -56,8 +56,10 @@ namespace Gleisbelegungsvisualisierer.Model
             return TrackOccupations.OrderBy(trackOccupation => trackOccupation.Arrival).ToList();
         }
 
+        [XmlAttribute]
         public string Name { get; set; }
-        public ObservableCollection<string> Signals { get; set; }
+        [XmlElement(ElementName = "Signal")]
+        public ObservableCollection<Signal> Signals { get; set; }
         [XmlIgnore]
         public List<TrackOccupation> TrackOccupations { get; set; }
         [XmlIgnore]

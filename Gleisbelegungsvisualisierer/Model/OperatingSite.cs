@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace Gleisbelegungsvisualisierer.Model
 {
@@ -65,7 +66,10 @@ namespace Gleisbelegungsvisualisierer.Model
             }
         }
 
+        [XmlAttribute]
         public string Name { get; set; }
+
+        [XmlElement(ElementName = "Track")]
         public ObservableCollection<Track> Tracks { get; set; }
 
         public override string ToString()

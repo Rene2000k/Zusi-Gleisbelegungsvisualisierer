@@ -26,7 +26,13 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
         {
             StartTime = startTime;
             EndTime = endTime;
+
             TimeSpan timeSpan = endTime.Subtract(startTime);
+            if (timeSpan.TotalSeconds < 0)
+            {
+                timeSpan = new TimeSpan(0, 0, 0);
+            }
+
             Height = timeSpan.TotalMinutes * PIXEL_FOR_MINUTE;
             AddTrackOccupations(trackOccupations);
         }

@@ -19,17 +19,15 @@ namespace Gleisbelegungsvisualisierer
 
             UserSettings settings = SettingController.DeserializeSettingsFromFile();
             OperatingSites = new ObservableCollection<OperatingSite>(settings.OperatingSites);
+            PathsToTimetableFolder = new ObservableCollection<string>(settings.PathsToTimetableFolder);
 
-            MainMenu = new MainMenu();
+            MainMenu = new MainMenu(OperatingSites, PathsToTimetableFolder);
             MainMenu.DataContext = this;
             Visualisation = new Visualisation(OperatingSites);
             Visualisation.DataContext = MainMenu;
 
             MainmenuTab.Content = MainMenu;
-            MainMenu.ListViewOpperatingSites.ItemsSource = OperatingSites;
             VisualisationTab.Content = Visualisation;
-
-            MainMenu.TextBoxTimetablePath.Text = settings.PathToTimetableFolder;
         }
 
         public void AddOperatingSite(string name)
@@ -45,11 +43,12 @@ namespace Gleisbelegungsvisualisierer
         private MainMenu MainMenu { get; }
         private Visualisation Visualisation { get; }
         internal ObservableCollection<OperatingSite> OperatingSites { get; }
+        internal ObservableCollection<string> PathsToTimetableFolder { get; }
         private SettingController SettingController { get; }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            UserSettings settings = new UserSettings(OperatingSites.ToList(), MainMenu.TextBoxTimetablePath.Text);
+            UserSettings settings = new UserSettings(OperatingSites.ToList(), PathsToTimetableFolder.ToList());
             SettingController.SerializeSettingsToFile(settings);
         }
     }

@@ -66,7 +66,7 @@ namespace Gleisbelegungsvisualisierer
 
         private void GenerateTrackOccupation(Track track, TimetableSignalEntry signal, TimetableEntry timetableEntry, Zusi deserializedTrain)
         {
-            if (track.Signals.Contains(signal.TimetableSignal))
+            if (track.Signals.Contains(new Signal(signal.TimetableSignal)))
             {
                 XMLTrain xmlTrain = deserializedTrain.Train;
                 DateTime? arrival = null;

@@ -8,14 +8,15 @@ namespace Gleisbelegungsvisualisierer.XML_Structure
     [XmlInclude(typeof(OperatingSite))]
     public class UserSettings
     {
+        [XmlElement(ElementName = "OperatingSite")]
         public List<OperatingSite> OperatingSites;
 
-        public string PathToTimetableFolder;
+        public List<string> PathsToTimetableFolder;
 
-        public UserSettings(List<OperatingSite> operatingSites, string pathToTimetableFolder)
+        public UserSettings(List<OperatingSite> operatingSites, List<string> pathsToTimetableFolder)
         {
             OperatingSites = operatingSites;
-            PathToTimetableFolder = pathToTimetableFolder;
+            PathsToTimetableFolder = pathsToTimetableFolder;
         }
 
         //For XML-Serailization
