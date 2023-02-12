@@ -3,6 +3,7 @@ using Gleisbelegungsvisualisierer.XML_Structure;
 using System;
 using System.IO;
 using System.Xml.Serialization;
+using System.Windows.Forms;
 
 namespace Gleisbelegungsvisualisierer
 {
@@ -23,7 +24,10 @@ namespace Gleisbelegungsvisualisierer
             foreach (string fileName in allFileNames)
             {
                 Zusi deserializedTrain = DeserializeFile(fileName);
-                AnalyseTrain(deserializedTrain, operatingSite);
+                if (deserializedTrain != null)
+                {
+                    AnalyseTrain(deserializedTrain, operatingSite);
+                }
             }
         }
 
@@ -41,10 +45,29 @@ namespace Gleisbelegungsvisualisierer
 
         private Zusi DeserializeFile(string fileName)
         {
-            using (Stream reader = new FileStream(fileName, FileMode.Open))
+            try
             {
-                return (Zusi)zusiDeserializer.Deserialize(reader);
+                using (Stream reader = new FileStream(fileName, FileMode.Open))
+                {
+                    try
+                    {
+                        return (Zusi)zusiDeserializer.Deserialize(reader);
+                    } 
+                    catch (Exception e)
+                    {
+                        string message = string.Format("Datei {0} konnte nicht gelesen werden: {1}. Überspringe.", fileName, e);
+                        string caption = "Datei konnte nicht gelesen werden";
+                        Utils.ShowMessageBox(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            } 
+            catch (FileNotFoundException)
+            {
+                string message = string.Format("Die Datei {0} wurde nicht gefunden. Überspringe.", fileName);
+                string caption = "Datei nicht gefunden";
+                Utils.ShowMessageBox(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            return null;
         }
 
         private void AnalyseTrain(Zusi deserializedTrain, OperatingSite operatingSite)

@@ -60,6 +60,7 @@
     <Compile Include="SettingController.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Model\TrackOccupation.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="VisualisationElements\TimelineCanvas.cs" />
     <Compile Include="VisualisationElements\TrackCanvas.cs" />
     <Compile Include="Visualisation.xaml.cs">

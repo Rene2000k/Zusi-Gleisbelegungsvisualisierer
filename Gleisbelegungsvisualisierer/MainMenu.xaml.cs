@@ -1,9 +1,9 @@
 ﻿using Gleisbelegungsvisualisierer.Model;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Gleisbelegungsvisualisierer
 {
@@ -15,32 +15,26 @@ namespace Gleisbelegungsvisualisierer
         public MainMenu(ObservableCollection<OperatingSite> operatingSites, ObservableCollection<string> timetablePaths)
         {
             InitializeComponent();
-            MainWindow = (MainWindow)DataContext;
 
             PathsToTimetableFolder = timetablePaths;
+            OperatingSites = operatingSites;
 
-            ListViewOpperatingSites.ItemsSource = operatingSites;
-            TextBoxTimetablePath.ItemsSource = timetablePaths;
-            TextBoxTimetablePath.Text = timetablePaths[0];
+            ListViewOpperatingSites.ItemsSource = OperatingSites;
+            TextBoxTimetablePath.ItemsSource = PathsToTimetableFolder;
+            TextBoxTimetablePath.Text = PathsToTimetableFolder[0];
 
         }
 
         private void ButtonSelectTimetablePath_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            string path = Utils.ShowFolderDialog();
+            if (path != null && !PathsToTimetableFolder.Contains(path))
             {
-                TextBoxTimetablePath.Text = dialog.SelectedPath;
+                PathsToTimetableFolder.Insert(0, path);
 
-                if (!PathsToTimetableFolder.Contains(dialog.SelectedPath))
+                while (PathsToTimetableFolder.Count > MAX_LEN_TIMETABLE_LIST)
                 {
-                    PathsToTimetableFolder.Insert(0, dialog.SelectedPath);
-
-                    while (PathsToTimetableFolder.Count > MAX_LEN_TIMETABLE_LIST)
-                    {
-                        PathsToTimetableFolder.RemoveAt(PathsToTimetableFolder.Count - 1);
-                    }
+                    PathsToTimetableFolder.RemoveAt(PathsToTimetableFolder.Count - 1);
                 }
             }
         }
@@ -50,8 +44,8 @@ namespace Gleisbelegungsvisualisierer
             string newOperatingSiteName = TextBoxNewOperatingSiteName.Text;
             if (newOperatingSiteName != "")
             {
-                MainWindow.AddOperatingSite(newOperatingSiteName);
-                ListViewOpperatingSites.SelectedItem = MainWindow.OperatingSites.Last();
+                OperatingSite newOS = AddOperatingSite(newOperatingSiteName);
+                ListViewOpperatingSites.SelectedItem = newOS;
             }
             TextBoxNewOperatingSiteName.Text = "";
         }
@@ -83,7 +77,7 @@ namespace Gleisbelegungsvisualisierer
         private void ButtonDeleteOperatingSite_Click(object sender, RoutedEventArgs e)
         {
             OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
-            MainWindow.RemoveOperatingSite(selectedOperatingSite);
+            RemoveOperatingSite(selectedOperatingSite);
         }
 
         private void ButtonDeleteTrack_Click(object sender, RoutedEventArgs e)
@@ -126,8 +120,27 @@ namespace Gleisbelegungsvisualisierer
             }
         }
 
-        private MainWindow MainWindow { get; }
-        private ObservableCollection<string> PathsToTimetableFolder { get; set; }
+        public OperatingSite AddOperatingSite(string name)
+        {
+            int index = 0;
+            while (index < OperatingSites.Count && name.CompareTo(OperatingSites[index].Name) > 0)
+            {
+                index++;
+            }
+
+            OperatingSite os = new OperatingSite(name);
+            OperatingSites.Insert(index, os);
+            return os;
+        }
+
+        internal void RemoveOperatingSite(OperatingSite operatingSite)
+        {
+            OperatingSites.Remove(operatingSite);
+        }
+
+        public ObservableCollection<OperatingSite> OperatingSites { get; }
+        public ObservableCollection<string> PathsToTimetableFolder { get; set; }
+
         private const int MAX_LEN_TIMETABLE_LIST = 5;
 
     }
