@@ -41,51 +41,25 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
         {
             foreach (TrackOccupation trackOccupation in trackOccupations)
             {
-                DateTime departure = trackOccupation.Departure;
-                DateTime arrival = trackOccupation.Arrival;
-
-                TimeSpan occupationTime = departure.Subtract(arrival);
-                TimeSpan startDiff = arrival.TimeOfDay.Subtract(StartTime);
-                XMLTrain train = trackOccupation.Train;
-                TextBlock text = new TextBlock();
-                string blockText = train.TrainType + " " + train.TrainNumber + "\n" + train.TrainRun + "\n" +
-                    "Ankunft: " + arrival.TimeOfDay.ToString(@"hh\:mm") + "\n" +
-                    "Abfahrt: " + departure.TimeOfDay.ToString(@"hh\:mm");
-                text.Text = blockText;
-                Border block = new Border();
-                block.Child = text;
-                block.ToolTip = new ToolTip().Content = blockText;
-                FindHorizontalPosition(block, trackOccupation, trackOccupations);
-                switch (train.TrainType)
+                if (!trackOccupation.NoTime)
                 {
-                    case "ICE":
-                        block.Background = new SolidColorBrush(Colors.Red);
-                        break;
-                    case "IC":
-                        block.Background = new SolidColorBrush(Colors.Orange);
-                        break;
-                    case "IR":
-                        block.Background = new SolidColorBrush(Colors.LightBlue);
-                        break;
-                    case "RE":
-                        block.Background = new SolidColorBrush(Colors.LightGreen);
-                        break;
-                    case "RB":
-                        block.Background = new SolidColorBrush(Colors.Yellow);
-                        break;
-                    default:
-                        block.Background = new SolidColorBrush(Colors.LightGray);
-                        break;
+                    DateTime departure = trackOccupation.Departure;
+                    DateTime arrival = trackOccupation.Arrival;
+                    TimeSpan occupationTime = departure.Subtract(arrival);
+                    TimeSpan startDiff = arrival.TimeOfDay.Subtract(StartTime);
+
+                    Block block = new Block(trackOccupation, arrival, departure, occupationTime.TotalMinutes * PIXEL_FOR_MINUTE);
+                    FindHorizontalPosition(block, trackOccupation, trackOccupations);
+
+                    trackOccupation.ElementOnCanvas = block.Border;
+                    Children.Add(block.Border);
+                    SetTop(block.Border, startDiff.TotalMinutes * PIXEL_FOR_MINUTE);
                 }
-                block.Height = occupationTime.TotalMinutes * PIXEL_FOR_MINUTE;
-                trackOccupation.ElementOnCanvas = block;
-                Children.Add(block);
-                SetTop(block, startDiff.TotalMinutes * PIXEL_FOR_MINUTE);
             }
         }
 
 
-        private void FindHorizontalPosition(Border border, TrackOccupation currentTO, List<TrackOccupation> trackOccupations)
+        private void FindHorizontalPosition(Block block, TrackOccupation currentTO, List<TrackOccupation> trackOccupations)
         {
             //Prerequisite: trackOccupations is sorted by arrival time
             List<int> occupiedPositions = new List<int>();
@@ -119,8 +93,8 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             while (occupiedPositions.Contains(position)) position++;
             //4. step: recalculate position on canvas for new to;
             currentTO.HorizontalPositionOnCanvas = position;
-            border.Width = width;
-            border.Margin = new System.Windows.Thickness { Top = 0, Left = width * position, Right = 0, Bottom = 0 };
+            block.Border.Width = width;
+            block.Border.Margin = new System.Windows.Thickness { Top = 0, Left = width * position, Right = 0, Bottom = 0 };
         }
 
         public TimeSpan StartTime { get; set; }

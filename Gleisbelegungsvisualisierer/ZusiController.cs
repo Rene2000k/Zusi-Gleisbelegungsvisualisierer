@@ -104,15 +104,7 @@ namespace Gleisbelegungsvisualisierer
                 }
                 if (arrival != null || departure != null)
                 {
-                    if (arrival == null)
-                    {
-                        arrival = departure.Value.Add(new TimeSpan(0, -1, 0));
-                    }
-                    if (departure == null)
-                    {
-                        departure = arrival.Value.Add(new TimeSpan(0, 1, 0));
-                    }
-                    track.AddTrackOccupation(arrival.Value, departure.Value, xmlTrain);
+                    track.AddTrackOccupation(arrival, departure, xmlTrain);
                 }
             }
         }

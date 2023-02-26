@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gleisbelegungsvisualisierer"
-             mc:Ignorable="d" d:DesignWidth="670.51" d:DesignHeight="349.082" >
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -84,11 +84,15 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox Name="TextBoxNewTrackName" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10,10,10,10" FontSize="20"/>
+            <TextBox Name="TextBoxNewTrackName" Grid.Row="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" Margin="10,10,10,10" FontSize="20"/>
             <Button Name="ButtonAddNewTrack" Click="ButtonAddNewTrack_Click" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Neues Gleis hinzufügen</Button>
             <Button Name="ButtonDeleteTrack" Click="ButtonDeleteTrack_Click" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Löschen</Button>
+            <Button Name="ButtonTrackUp" Click="ButtonTrackUp_Click" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="20" MaxWidth="200" Margin="10,10,10,10" FontSize="20">/\</Button>
+            <Button Name="ButtonTrackDown" Click="ButtonTrackDown_Click" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="20" MaxWidth="200" Margin="10,10,10,10" FontSize="20">\/</Button>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="4">
             <Grid.RowDefinitions>

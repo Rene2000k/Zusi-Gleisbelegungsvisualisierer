@@ -77,21 +77,30 @@ namespace Gleisbelegungsvisualisierer
         private void ButtonDeleteOperatingSite_Click(object sender, RoutedEventArgs e)
         {
             OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
-            RemoveOperatingSite(selectedOperatingSite);
+            if (selectedOperatingSite != null)
+            {
+                RemoveOperatingSite(selectedOperatingSite);
+            }
         }
 
         private void ButtonDeleteTrack_Click(object sender, RoutedEventArgs e)
         {
             OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
             Track selectedTrack = (Track)ListViewTracks.SelectedItem;
-            selectedOperatingSite.RemoveTrack(selectedTrack);
+            if (selectedOperatingSite != null && selectedTrack != null)
+            {
+                selectedOperatingSite.RemoveTrack(selectedTrack);
+            }
         }
 
         private void ButtonDeleteSignal_Click(object sender, RoutedEventArgs e)
         {
             Track selectedTrack = (Track)ListViewTracks.SelectedItem;
             Signal selectedSignal = (Signal)ListViewSignals.SelectedItem;
-            selectedTrack.RemoveSignal(selectedSignal);
+            if (selectedTrack != null && selectedSignal != null)
+            {
+                selectedTrack.RemoveSignal(selectedSignal);
+            }
         }
 
         private void ListViewOpperatingSites_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -120,6 +129,16 @@ namespace Gleisbelegungsvisualisierer
             }
         }
 
+        private void ButtonTrackUp_Click(object sender, RoutedEventArgs e)
+        {
+            SwapTracks(-1);
+        }
+
+        private void ButtonTrackDown_Click(object sender, RoutedEventArgs e)
+        {
+            SwapTracks(1);
+        }
+
         public OperatingSite AddOperatingSite(string name)
         {
             int index = 0;
@@ -138,10 +157,34 @@ namespace Gleisbelegungsvisualisierer
             OperatingSites.Remove(operatingSite);
         }
 
+        /*
+         * swap the selected track with another track in the tracklist
+         * upOrDown: integer for the position to change (e.g. -1 --> one place up; +2 --> two places down)
+         */
+        private void SwapTracks(int upOrDown)
+        {
+            OperatingSite selectedOperatingSite = (OperatingSite)ListViewOpperatingSites.SelectedItem;
+            Track selectedTrack = (Track)ListViewTracks.SelectedItem;
+            if (selectedOperatingSite != null && selectedTrack != null)
+            {
+                ObservableCollection<Track> trackList = selectedOperatingSite.Tracks;
+                for (int i = 0; i < trackList.Count; i++)
+                {
+                    if (trackList[i] == selectedTrack && i + upOrDown >= 0 && i + upOrDown < trackList.Count)
+                    {
+                        trackList[i] = trackList[i + upOrDown];
+                        trackList[i + upOrDown] = selectedTrack;
+                        break;
+                    }
+                }
+            }
+        }
+
         public ObservableCollection<OperatingSite> OperatingSites { get; }
         public ObservableCollection<string> PathsToTimetableFolder { get; set; }
 
         private const int MAX_LEN_TIMETABLE_LIST = 5;
 
+        
     }
 }

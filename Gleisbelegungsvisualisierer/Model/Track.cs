@@ -34,7 +34,7 @@ namespace Gleisbelegungsvisualisierer.Model
             Signals.Remove(signal);
         }
 
-        public TrackOccupation AddTrackOccupation(DateTime arrival, DateTime departure, XMLTrain train)
+        public TrackOccupation AddTrackOccupation(DateTime? arrival, DateTime? departure, XMLTrain train)
         {
             TrackOccupation trackOccupation = new TrackOccupation(arrival, departure, train);
             TrackOccupations.Add(trackOccupation);

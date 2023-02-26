@@ -7,5 +7,12 @@ namespace Gleisbelegungsvisualisierer
     /// </summary>
     public partial class App : Application
     {
+        internal Properties.Resources Resources
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
