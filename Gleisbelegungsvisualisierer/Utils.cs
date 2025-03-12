@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Gleisbelegungsvisualisierer
 {
-    public class Utils
+    public static class Utils
     {
         public static DialogResult ShowMessageBox(string message, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {

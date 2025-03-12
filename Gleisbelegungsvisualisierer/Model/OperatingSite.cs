@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace Gleisbelegungsvisualisierer.Model
@@ -31,11 +32,13 @@ namespace Gleisbelegungsvisualisierer.Model
             TimeSpan startingTime = new TimeSpan(24, 0, 0);
             foreach (Track track in Tracks)
             {
-                foreach (TrackOccupation trackOccupation in track.TrackOccupations)
+                foreach (
+                    TimeSpan arrival in track.TrackOccupations.Select(trackOccupation => trackOccupation.Arrival.TimeOfDay)
+                )
                 {
-                    if (startingTime == null || startingTime > trackOccupation.Arrival.TimeOfDay)
+                    if (startingTime == null || startingTime > arrival)
                     {
-                        startingTime = trackOccupation.Arrival.TimeOfDay;
+                        startingTime = arrival;
                     }
                 }
             }
@@ -47,11 +50,13 @@ namespace Gleisbelegungsvisualisierer.Model
             TimeSpan endingTime = new TimeSpan(0, 0, 0);
             foreach (Track track in Tracks)
             {
-                foreach (TrackOccupation trackOccupation in track.TrackOccupations)
+                foreach (
+                    TimeSpan departure in track.TrackOccupations.Select(trackOccupation => trackOccupation.Departure.TimeOfDay)
+                )
                 {
-                    if (endingTime == null || endingTime < trackOccupation.Departure.TimeOfDay)
+                    if (endingTime == null || endingTime < departure)
                     {
-                        endingTime = trackOccupation.Departure.TimeOfDay;
+                        endingTime = departure;
                     }
                 }
             }

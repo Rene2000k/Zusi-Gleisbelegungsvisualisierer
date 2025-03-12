@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace Gleisbelegungsvisualisierer
 {
@@ -11,7 +12,7 @@ namespace Gleisbelegungsvisualisierer
     {
         private const string TRAIN_FILE_ENING = "*.trn";
 
-        private XmlSerializer zusiDeserializer;
+        private readonly XmlSerializer zusiDeserializer;
         public ZusiController()
         {
             zusiDeserializer = new XmlSerializer(typeof(Zusi));
@@ -31,7 +32,7 @@ namespace Gleisbelegungsvisualisierer
             }
         }
 
-        private string[] GetAllFilesInDirectory(string folderPath)
+        private static string[] GetAllFilesInDirectory(string folderPath)
         {
             try
             {
@@ -70,7 +71,7 @@ namespace Gleisbelegungsvisualisierer
             return null;
         }
 
-        private void AnalyseTrain(Zusi deserializedTrain, OperatingSite operatingSite)
+        private static void AnalyseTrain(Zusi deserializedTrain, OperatingSite operatingSite)
         {
             foreach (TimetableEntry timetableEntry in deserializedTrain.Train.TimetableEntries)
             {
@@ -87,7 +88,7 @@ namespace Gleisbelegungsvisualisierer
             }
         }
 
-        private void GenerateTrackOccupation(Track track, TimetableSignalEntry signal, TimetableEntry timetableEntry, Zusi deserializedTrain)
+        private static void GenerateTrackOccupation(Track track, TimetableSignalEntry signal, TimetableEntry timetableEntry, Zusi deserializedTrain)
         {
             if (track.Signals.Contains(new Signal(signal.TimetableSignal)))
             {
@@ -95,12 +96,12 @@ namespace Gleisbelegungsvisualisierer
                 DateTime? arrival = null;
                 if (timetableEntry.ArrivalTime != null)
                 {
-                    arrival = DateTime.Parse(timetableEntry.ArrivalTime);
+                    arrival = DateTime.Parse(timetableEntry.ArrivalTime, new CultureInfo("de-DE"));
                 }
                 DateTime? departure = null;
                 if (timetableEntry.DepartureTime != null)
                 {
-                    departure = DateTime.Parse(timetableEntry.DepartureTime);
+                    departure = DateTime.Parse(timetableEntry.DepartureTime, new CultureInfo("de-DE"));
                 }
                 if (arrival != null || departure != null)
                 {

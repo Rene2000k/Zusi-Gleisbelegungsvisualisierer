@@ -17,8 +17,8 @@ namespace Gleisbelegungsvisualisierer.Model
             if (arrival == null && departure == null)
             {
                 NoTime = true;
-                Arrival = new DateTime(0);
-                Departure = new DateTime(0);
+                Arrival = new DateTime(0, DateTimeKind.Local);
+                Departure = new DateTime(0, DateTimeKind.Local);
             }
             else if (arrival == null)
             {

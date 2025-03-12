@@ -78,7 +78,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
                 }
             }
             int countOverlappings = overlappingTOs.Count;
-            double width = WIDTH / (countOverlappings + 1);
+            double width = (double) WIDTH / (countOverlappings + 1);
             //2. step: mark positions as occupied and recalculate position
             foreach (TrackOccupation trackOccupation in overlappingTOs)
             {
@@ -91,7 +91,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             //3. step: sort track occupation in right position depending on arrival time
             int position = 0;
             while (occupiedPositions.Contains(position)) position++;
-            //4. step: recalculate position on canvas for new to;
+            //4. step: recalculate position on canvas for new to
             currentTO.HorizontalPositionOnCanvas = position;
             block.Border.Width = width;
             block.Border.Margin = new System.Windows.Thickness { Top = 0, Left = width * position, Right = 0, Bottom = 0 };

@@ -10,7 +10,7 @@ namespace Gleisbelegungsvisualisierer
     {
         private const string SETTINGS_FILE_NAME = "userPreferences.xml";
 
-        private XmlSerializer settingsSerializer;
+        private readonly XmlSerializer settingsSerializer;
 
         public SettingController() {
             settingsSerializer = new XmlSerializer(typeof(UserSettings));

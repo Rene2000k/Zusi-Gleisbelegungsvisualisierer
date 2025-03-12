@@ -1,8 +1,10 @@
 ﻿using Gleisbelegungsvisualisierer.Model;
 using Gleisbelegungsvisualisierer.XML_Structure;
 using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Gleisbelegungsvisualisierer.VisualisationElements
 {
@@ -27,7 +29,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             ColorBorder(trackOccupation);
         }
 
-        private Color GetColorForTrainType(XMLTrain train)
+        private static Color GetColorForTrainType(XMLTrain train)
         {
             switch (train.TrainType)
             {
@@ -52,6 +54,19 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             {
                 // TODO: Schraffierungen
                 Border.Background = new SolidColorBrush(Color);
+
+                //VisualBrush vb = new VisualBrush();
+                //vb.Viewport = new Rect(0, 0, 5, 5);
+                //vb.ViewboxUnits = BrushMappingMode.Absolute;
+                //vb.Viewbox = new Rect(0, 0, 5, 5);
+                //vb.ViewboxUnits = BrushMappingMode.Absolute;
+                //vb.TileMode = TileMode.Tile;
+                //vb.Visual = new Path
+                //{
+                //    Data = Geometry.Parse("M 0 5 L 5 0 M -2 2 L 2 -2 M 3 7 L 7 3"),
+                //    Stroke = new SolidColorBrush(Color)
+                //};
+                //Border.Background = vb;
             }
             else
             {

@@ -55,7 +55,7 @@ namespace Gleisbelegungsvisualisierer
             }
         }
 
-        private Column CreateColumn(Track track, TimeSpan startTime, TimeSpan endTime)
+        private static Column CreateColumn(Track track, TimeSpan startTime, TimeSpan endTime)
         {
             List<TrackOccupation> TrackOccupations = track.GetTrackOccupationsAsOrderedList();
             TrackCanvas canvas = new TrackCanvas();
