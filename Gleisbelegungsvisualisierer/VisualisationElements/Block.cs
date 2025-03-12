@@ -52,21 +52,29 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
         {
             if (trackOccupation.Transiting)
             {
-                // TODO: Schraffierungen
-                Border.Background = new SolidColorBrush(Color);
+                var vb = new VisualBrush();
+                vb.Viewport = new Rect(0, 0, 10, 10);  // Increased from 10 to 20
+                vb.ViewportUnits = BrushMappingMode.Absolute;
+                vb.Viewbox = new Rect(0, 0, 10, 10);   // Increased from 10 to 20
+                vb.ViewboxUnits = BrushMappingMode.Absolute;
+                vb.TileMode = TileMode.Tile;
 
-                //VisualBrush vb = new VisualBrush();
-                //vb.Viewport = new Rect(0, 0, 5, 5);
-                //vb.ViewboxUnits = BrushMappingMode.Absolute;
-                //vb.Viewbox = new Rect(0, 0, 5, 5);
-                //vb.ViewboxUnits = BrushMappingMode.Absolute;
-                //vb.TileMode = TileMode.Tile;
-                //vb.Visual = new Path
-                //{
-                //    Data = Geometry.Parse("M 0 5 L 5 0 M -2 2 L 2 -2 M 3 7 L 7 3"),
-                //    Stroke = new SolidColorBrush(Color)
-                //};
-                //Border.Background = vb;
+                var drawing = new GeometryGroup();
+                drawing.Children.Add(new LineGeometry(new Point(0, 10), new Point(10, 0)));
+                drawing.Children.Add(new LineGeometry(new Point(-5, 5), new Point(5, -5)));
+                drawing.Children.Add(new LineGeometry(new Point(5, 15), new Point(15, 5)));
+
+                var path = new Path
+                {
+                    Data = drawing,
+                    Stroke = new SolidColorBrush(Color),
+                    StrokeThickness = 2  // Increased from 1 to 2
+                };
+
+                vb.Visual = path;
+                Border.Background = vb;
+                Border.BorderBrush = new SolidColorBrush(Color);
+                Border.BorderThickness = new Thickness(2);
             }
             else
             {
