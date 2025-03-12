@@ -50,7 +50,13 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
 
         private void ColorBorder(TrackOccupation trackOccupation)
         {
-            if (trackOccupation.Transiting)
+            if (trackOccupation.IsAlternativeOccupation)
+            {
+                Border.Background = Brushes.Transparent;
+                Border.BorderBrush = new SolidColorBrush(Color);
+                Border.BorderThickness = new Thickness(2);
+            }
+            else if (trackOccupation.Transiting)
             {
                 var vb = new VisualBrush();
                 vb.Viewport = new Rect(0, 0, 10, 10);  // Increased from 10 to 20

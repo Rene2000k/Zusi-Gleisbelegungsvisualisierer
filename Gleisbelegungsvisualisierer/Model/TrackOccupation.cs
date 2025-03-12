@@ -13,6 +13,7 @@ namespace Gleisbelegungsvisualisierer.Model
             ElementOnCanvas = null;
             NoTime = false;
             Transiting = false;
+            IsAlternativeOccupation = false;
 
             if (arrival == null && departure == null)
             {
@@ -47,6 +48,7 @@ namespace Gleisbelegungsvisualisierer.Model
         public Border ElementOnCanvas { get; set; }
         public bool Transiting { get; set; }
         public bool NoTime { get; set; }
+        public bool IsAlternativeOccupation { get; set; }
 
         public override string ToString()
         {

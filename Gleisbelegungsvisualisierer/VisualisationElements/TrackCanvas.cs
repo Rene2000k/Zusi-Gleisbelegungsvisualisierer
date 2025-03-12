@@ -1,5 +1,4 @@
 ﻿using Gleisbelegungsvisualisierer.Model;
-using Gleisbelegungsvisualisierer.XML_Structure;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -22,7 +21,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             Background = new SolidColorBrush(Colors.AliceBlue);
         }
 
-        public void PopulateCanvas(List<TrackOccupation> trackOccupations, TimeSpan startTime, TimeSpan endTime)
+        public void PopulateCanvas(List<TrackOccupation> trackOccupations, TimeSpan startTime, TimeSpan endTime, bool showAlternatives)
         {
             StartTime = startTime;
             EndTime = endTime;
@@ -34,10 +33,10 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             }
 
             Height = timeSpan.TotalMinutes * PIXEL_FOR_MINUTE;
-            AddTrackOccupations(trackOccupations);
+            AddTrackOccupations(trackOccupations, showAlternatives);
         }
 
-        private void AddTrackOccupations(List<TrackOccupation> trackOccupations)
+        private void AddTrackOccupations(List<TrackOccupation> trackOccupations, bool showAlternatives)
         {
             foreach (TrackOccupation trackOccupation in trackOccupations)
             {
@@ -49,6 +48,12 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
                     TimeSpan startDiff = arrival.TimeOfDay.Subtract(StartTime);
 
                     Block block = new Block(trackOccupation, arrival, departure, occupationTime.TotalMinutes * PIXEL_FOR_MINUTE);
+                    
+                    if (trackOccupation.IsAlternativeOccupation && !showAlternatives)
+                    {
+                        block.Border.Visibility = System.Windows.Visibility.Collapsed;
+                    }
+
                     FindHorizontalPosition(block, trackOccupation, trackOccupations);
 
                     trackOccupation.ElementOnCanvas = block.Border;
