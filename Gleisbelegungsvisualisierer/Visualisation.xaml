@@ -7,24 +7,104 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid>
+    <UserControl.Resources>
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,8,10,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1976D2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ModernComboBox" TargetType="ComboBox">
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#BDBDBD"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style x:Key="ModernProgressBar" TargetType="ProgressBar">
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="Foreground" Value="#2196F3"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="4"/>
+        </Style>
+
+        <Style x:Key="ModernScrollViewer" TargetType="ScrollViewer">
+            <Setter Property="Background" Value="#FAFAFA"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#FAFAFA">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="7*"></RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="7*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+
+        <!-- Top Controls -->
+        <Grid Grid.Row="0" Margin="20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <ComboBox Name="ComboBoxOperatingSites" Grid.Column="0" Margin="10,10,10,10" FontSize="20" VerticalAlignment="Top"></ComboBox>
-            <Button Name="ButtonAnalyse" Click="ButtonAnalyse_Click" Content="Analysieren" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Top" Width="Auto" FontSize="20"/>
-            <ProgressBar Name="ProgressBar" Grid.Column="2" Margin="10,10,10,10" VerticalAlignment="Top" Width="Auto" FontSize="20" Height="30"></ProgressBar>
+            
+            <ComboBox Name="ComboBoxOperatingSites" 
+                      Grid.Column="0" 
+                      Style="{StaticResource ModernComboBox}"
+                      Margin="0,0,20,0" 
+                      FontSize="20" 
+                      VerticalAlignment="Center"/>
+            
+            <Button Name="ButtonAnalyse" 
+                    Grid.Column="1"
+                    Style="{StaticResource ModernButton}"
+                    Click="ButtonAnalyse_Click" 
+                    Content="Analysieren" 
+                    Margin="0,0,20,0"
+                    FontSize="20"/>
+
+            <CheckBox Name="CheckBoxShowAlternatives"
+                    Grid.Column="2"
+                    Content="Alternative Belegungen anzeigen"
+                    IsChecked="True"
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Checked="CheckBoxShowAlternatives_CheckedChanged"
+                    Unchecked="CheckBoxShowAlternatives_CheckedChanged"/>
         </Grid>
-        <ScrollViewer Name="Test" Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <StackPanel Name="ContentPanel" Orientation="Horizontal">
-            </StackPanel>
+
+        <!-- Content Area -->
+        <ScrollViewer Name="Test" 
+                      Grid.Row="1" 
+                      Style="{StaticResource ModernScrollViewer}"
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Name="ContentPanel" 
+                        Orientation="Horizontal"
+                        Margin="10"/>
         </ScrollViewer>
     </Grid>
 </UserControl>

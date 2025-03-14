@@ -13,11 +13,11 @@ namespace Gleisbelegungsvisualisierer
         private const string TRAIN_FILE_ENING = "*.trn";
 
         private readonly XmlSerializer zusiDeserializer;
+
         public ZusiController()
         {
             zusiDeserializer = new XmlSerializer(typeof(Zusi));
         }
-
 
         public void GetTrackOccupationsForOperatingSite(string folderPath, OperatingSite operatingSite)
         {
@@ -71,24 +71,26 @@ namespace Gleisbelegungsvisualisierer
             return null;
         }
 
-        private static void AnalyseTrain(Zusi deserializedTrain, OperatingSite operatingSite)
+        private void AnalyseTrain(Zusi deserializedTrain, OperatingSite operatingSite)
         {
             foreach (TimetableEntry timetableEntry in deserializedTrain.Train.TimetableEntries)
             {
                 if (timetableEntry.OperatingSite == operatingSite.Name)
                 {
+                    bool isFirst = true;
                     foreach (TimetableSignalEntry signal in timetableEntry.TimetableSignalEntries)
                     {
                         foreach (Track track in operatingSite.Tracks)
                         {
-                            GenerateTrackOccupation(track, signal, timetableEntry, deserializedTrain);
+                            GenerateTrackOccupation(track, signal, timetableEntry, deserializedTrain, !isFirst);
                         }
+                        isFirst = false;
                     }
                 }
             }
         }
 
-        private static void GenerateTrackOccupation(Track track, TimetableSignalEntry signal, TimetableEntry timetableEntry, Zusi deserializedTrain)
+        private static void GenerateTrackOccupation(Track track, TimetableSignalEntry signal, TimetableEntry timetableEntry, Zusi deserializedTrain, bool isAlternative)
         {
             if (track.Signals.Contains(new Signal(signal.TimetableSignal)))
             {
@@ -105,7 +107,8 @@ namespace Gleisbelegungsvisualisierer
                 }
                 if (arrival != null || departure != null)
                 {
-                    track.AddTrackOccupation(arrival, departure, xmlTrain);
+                    TrackOccupation occupation = track.AddTrackOccupation(arrival, departure, xmlTrain);
+                    occupation.IsAlternativeOccupation = isAlternative;
                 }
             }
         }

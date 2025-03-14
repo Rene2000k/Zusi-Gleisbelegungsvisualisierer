@@ -4,108 +4,239 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gleisbelegungsvisualisierer"
-             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080" >
-    <Grid>
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080">
+    <UserControl.Resources>
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,8,10,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="MaxHeight" Value="50"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1976D2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ModernListView" TargetType="ListView">
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+        </Style>
+
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#BDBDBD"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style x:Key="ModernComboBox" TargetType="ComboBox">
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#BDBDBD"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style x:Key="HeaderLabel" TargetType="Label">
+            <Setter Property="Foreground" Value="#212121"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#FAFAFA">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+
+        <!-- Top Section -->
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Pfad zum Fahrplanordner:</Label>
-            <ComboBox Name="TextBoxTimetablePath" Grid.Row="1" VerticalAlignment="Top" Margin="10,10,10,10" FontSize="20" IsEditable="True"/>
-            <Button Name="ButtonSelectTimetablePath" Click="ButtonSelectTimetablePath_Click" Content="Ordner auswählen" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,10,10" Grid.Row="1" VerticalAlignment="Top" Width="Auto" FontSize="20"/>
+            <Label Grid.Row="0" Style="{StaticResource HeaderLabel}" 
+                   VerticalAlignment="Bottom" Content="Pfad zum Fahrplanordner:"
+                   FontSize="20" Margin="0,0,0,5"/>
+            <ComboBox Name="TextBoxTimetablePath" Grid.Row="1" 
+                      Style="{StaticResource ModernComboBox}"
+                      VerticalAlignment="Top" FontSize="20" IsEditable="True"/>
+            <Button Name="ButtonSelectTimetablePath" 
+                    Style="{StaticResource ModernButton}"
+                    Click="ButtonSelectTimetablePath_Click" 
+                    Content="Ordner auswählen" 
+                    Grid.Column="1" Grid.Row="1" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Height="{Binding ActualHeight, ElementName=TextBoxTimetablePath}"
+                    Margin="15,0,0,0"
+                    FontSize="20"/>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="0">
+
+        <!-- Operating Sites Section -->
+        <Grid Grid.Row="1" Grid.Column="0" Margin="20,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Betriebsstellen:</Label>
-            <ListView Name="ListViewOpperatingSites" SelectionMode="Single" SelectionChanged="ListViewOpperatingSites_SelectionChanged" Grid.Column="0" Grid.Row="1" Margin="10,10,10,10" FontSize="20">
-            </ListView>
+            <Label Grid.Row="0" Style="{StaticResource HeaderLabel}"
+                   Content="Betriebsstellen:" FontSize="20" Margin="0,0,0,10"/>
+            <ListView Name="ListViewOpperatingSites" 
+                      Style="{StaticResource ModernListView}"
+                      SelectionMode="Single" 
+                      SelectionChanged="ListViewOpperatingSites_SelectionChanged" 
+                      Grid.Row="1" FontSize="20"/>
         </Grid>
+
+        <!-- Arrow 1 -->
         <Viewbox Grid.Row="1" Grid.Column="1">
-            <TextBlock Text="🡆"/>
+            <TextBlock Text="🡆" Foreground="#2196F3"/>
         </Viewbox>
-        <Grid Grid.Row="1" Grid.Column="2">
+
+        <!-- Tracks Section -->
+        <Grid Grid.Row="1" Grid.Column="2" Margin="20,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Gleise:</Label>
-            <ListView Name="ListViewTracks" SelectionMode="Single" SelectionChanged="ListViewTracks_SelectionChanged" Grid.Column="0" Grid.Row="1" Margin="10,10,10,10" FontSize="20">
-            </ListView>
+            <Label Grid.Row="0" Style="{StaticResource HeaderLabel}"
+                   Content="Gleise:" FontSize="20" Margin="0,0,0,10"/>
+            <ListView Name="ListViewTracks" 
+                      Style="{StaticResource ModernListView}"
+                      SelectionMode="Single" 
+                      SelectionChanged="ListViewTracks_SelectionChanged" 
+                      Grid.Row="1" FontSize="20"/>
         </Grid>
+
+        <!-- Arrow 2 -->
         <Viewbox Grid.Row="1" Grid.Column="3">
-            <TextBlock Text="🡆"/>
+            <TextBlock Text="🡆" Foreground="#2196F3"/>
         </Viewbox>
-        <Grid Grid.Row="1" Grid.Column="4">
+
+        <!-- Signals Section -->
+        <Grid Grid.Row="1" Grid.Column="4" Margin="20,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Signale:</Label>
-            <ListView Name="ListViewSignals" SelectionMode="Single" Grid.Column="0" Grid.Row="1" Margin="10,10,10,10" FontSize="20">
-            </ListView>
+            <Label Grid.Row="0" Style="{StaticResource HeaderLabel}"
+                   Content="Signale:" FontSize="20" Margin="0,0,0,10"/>
+            <ListView Name="ListViewSignals" 
+                      Style="{StaticResource ModernListView}"
+                      SelectionMode="Single" 
+                      Grid.Row="1" FontSize="20"/>
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="0">
+
+        <!-- Bottom Controls -->
+        <Grid Grid.Row="2" Grid.Column="0" Margin="20,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBox Name="TextBoxNewOperatingSiteName" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10,10,10,10" FontSize="20"/>
-            <Button Name="ButtonAddNewOperatingSite" Click="ButtonAddNewOperatingSite_Click" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Neue Betriebsstelle hinzufügen</Button>
-            <Button Name="ButtonDeleteOperatingSite" Click="ButtonDeleteOperatingSite_Click"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Löschen</Button>
+            <TextBox Name="TextBoxNewOperatingSiteName" 
+                     Style="{StaticResource ModernTextBox}"
+                     Grid.ColumnSpan="2" Margin="0,0,0,10" FontSize="20"/>
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" 
+                        Orientation="Horizontal">
+                <Button Name="ButtonAddNewOperatingSite" 
+                        Style="{StaticResource ModernButton}"
+                        Click="ButtonAddNewOperatingSite_Click" 
+                        Content="Neue Betriebsstelle hinzufügen" 
+                        Margin="0,0,10,0"
+                        FontSize="20"/>
+                <Button Name="ButtonDeleteOperatingSite" 
+                        Style="{StaticResource ModernButton}"
+                        Click="ButtonDeleteOperatingSite_Click" 
+                        Content="Löschen" FontSize="20"/>
+            </StackPanel>
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="2">
+
+        <Grid Grid.Row="2" Grid.Column="2" Margin="20,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBox Name="TextBoxNewTrackName" Grid.Row="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" Margin="10,10,10,10" FontSize="20"/>
-            <Button Name="ButtonAddNewTrack" Click="ButtonAddNewTrack_Click" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Neues Gleis hinzufügen</Button>
-            <Button Name="ButtonDeleteTrack" Click="ButtonDeleteTrack_Click" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Löschen</Button>
-            <Button Name="ButtonTrackUp" Click="ButtonTrackUp_Click" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="20" MaxWidth="200" Margin="10,10,10,10" FontSize="20">/\</Button>
-            <Button Name="ButtonTrackDown" Click="ButtonTrackDown_Click" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="20" MaxWidth="200" Margin="10,10,10,10" FontSize="20">\/</Button>
+            <TextBox Name="TextBoxNewTrackName" 
+                     Style="{StaticResource ModernTextBox}"
+                     Margin="0,0,0,10" FontSize="20"/>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Name="ButtonAddNewTrack" 
+                        Style="{StaticResource ModernButton}"
+                        Click="ButtonAddNewTrack_Click" 
+                        Content="Neues Gleis hinzufügen"
+                        Margin="0,0,10,0"
+                        FontSize="20"/>
+                <Button Name="ButtonDeleteTrack" 
+                        Style="{StaticResource ModernButton}"
+                        Click="ButtonDeleteTrack_Click" 
+                        Content="Löschen"
+                        Margin="0,0,10,0"
+                        FontSize="20"/>
+                <Button Name="ButtonTrackUp" 
+                        Style="{StaticResource ModernButton}"
+                        Click="ButtonTrackUp_Click" 
+                        Content="↑"
+                        Margin="0,0,10,0"
+                        FontSize="20" Width="40"/>
+                <Button Name="ButtonTrackDown" 
+                        Style="{StaticResource ModernButton}"
+                        Click="ButtonTrackDown_Click" 
+                        Content="↓" FontSize="20" Width="40"/>
+            </StackPanel>
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="4">
+
+        <Grid Grid.Row="2" Grid.Column="4" Margin="20,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBox Name="TextBoxNewSignalName" Grid.Row="0"  Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10,10,10,10" FontSize="20"/>
-            <Button Name="ButtonAddNewSignal" Click="ButtonAddNewSignal_Click" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Neues Signal hinzufügen</Button>
-            <Button Name="ButtonDeleteSignal" Click="ButtonDeleteSignal_Click" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="50" MaxWidth="500" Margin="10,10,10,10" FontSize="20">Löschen</Button>
+            <TextBox Name="TextBoxNewSignalName" 
+                     Style="{StaticResource ModernTextBox}"
+                     Margin="0,0,0,10" FontSize="20"/>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Name="ButtonAddNewSignal" 
+                        Style="{StaticResource ModernButton}"
+                        Click="ButtonAddNewSignal_Click" 
+                        Content="Neues Signal hinzufügen"
+                        Margin="0,0,10,0"
+                        FontSize="20"/>
+                <Button Name="ButtonDeleteSignal" 
+                        Style="{StaticResource ModernButton}"
+                        Click="ButtonDeleteSignal_Click" 
+                        Content="Löschen" FontSize="20"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

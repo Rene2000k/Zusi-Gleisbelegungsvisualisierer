@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Gleisbelegungsvisualisierer
 {
@@ -21,8 +20,22 @@ namespace Gleisbelegungsvisualisierer
 
             ListViewOpperatingSites.ItemsSource = OperatingSites;
             TextBoxTimetablePath.ItemsSource = PathsToTimetableFolder;
-            TextBoxTimetablePath.Text = PathsToTimetableFolder[0];
+            TextBoxTimetablePath.SelectedIndex = 0;
+            TextBoxTimetablePath.SelectionChanged += TextBoxTimetablePath_SelectionChanged;
+        }
 
+        private void TextBoxTimetablePath_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                string selectedPath = e.AddedItems[0] as string;
+                if (selectedPath != null && PathsToTimetableFolder.Contains(selectedPath) && PathsToTimetableFolder[0] != selectedPath)
+                {
+                    PathsToTimetableFolder.Remove(selectedPath);
+                    PathsToTimetableFolder.Insert(0, selectedPath);
+                    TextBoxTimetablePath.SelectedIndex = 0;
+                }
+            }
         }
 
         private void ButtonSelectTimetablePath_Click(object sender, RoutedEventArgs e)
@@ -31,7 +44,7 @@ namespace Gleisbelegungsvisualisierer
             if (path != null && !PathsToTimetableFolder.Contains(path))
             {
                 PathsToTimetableFolder.Insert(0, path);
-
+                TextBoxTimetablePath.SelectedIndex = 0;
                 while (PathsToTimetableFolder.Count > MAX_LEN_TIMETABLE_LIST)
                 {
                     PathsToTimetableFolder.RemoveAt(PathsToTimetableFolder.Count - 1);
