@@ -59,9 +59,9 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
             else if (trackOccupation.Transiting)
             {
                 var vb = new VisualBrush();
-                vb.Viewport = new Rect(0, 0, 10, 10);  // Increased from 10 to 20
+                vb.Viewport = new Rect(0, 0, 10, 10);
                 vb.ViewportUnits = BrushMappingMode.Absolute;
-                vb.Viewbox = new Rect(0, 0, 10, 10);   // Increased from 10 to 20
+                vb.Viewbox = new Rect(0, 0, 10, 10);
                 vb.ViewboxUnits = BrushMappingMode.Absolute;
                 vb.TileMode = TileMode.Tile;
 
@@ -74,7 +74,7 @@ namespace Gleisbelegungsvisualisierer.VisualisationElements
                 {
                     Data = drawing,
                     Stroke = new SolidColorBrush(Color),
-                    StrokeThickness = 2  // Increased from 1 to 2
+                    StrokeThickness = 2
                 };
 
                 vb.Visual = path;

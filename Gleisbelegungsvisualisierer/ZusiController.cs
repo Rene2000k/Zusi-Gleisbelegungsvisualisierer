@@ -19,7 +19,6 @@ namespace Gleisbelegungsvisualisierer
             zusiDeserializer = new XmlSerializer(typeof(Zusi));
         }
 
-
         public void GetTrackOccupationsForOperatingSite(string folderPath, OperatingSite operatingSite)
         {
             string[] allFileNames = GetAllFilesInDirectory(folderPath);

@@ -9,14 +9,16 @@
         <Style x:Key="ModernButton" TargetType="Button">
             <Setter Property="Background" Value="#2196F3"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Padding" Value="10,8,10,8"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="MaxHeight" Value="50"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
                                 CornerRadius="4">
                             <ContentPresenter HorizontalAlignment="Center" 
                                             VerticalAlignment="Center"/>
@@ -93,7 +95,10 @@
                     Content="Ordner auswählen" 
                     Grid.Column="1" Grid.Row="1" 
                     HorizontalAlignment="Left" 
-                    VerticalAlignment="Top"/>
+                    VerticalAlignment="Top"
+                    Height="{Binding ActualHeight, ElementName=TextBoxTimetablePath}"
+                    Margin="15,0,0,0"
+                    FontSize="20"/>
         </Grid>
 
         <!-- Operating Sites Section -->
