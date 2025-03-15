@@ -8,7 +8,7 @@ Das Tool richtet sich vor allem an Fahrplanbauer und eignet sich um bei komplexe
 
 Das Hauptmenü ist der Startpunkt des Tools und dient zur Definition von Betriebstellen, Gleisen und Signalen zur Visualisierung sowie der Auswahl des aktuellen Fahrplans.
 
-![main-menu](https://github.com/user-attachments/assets/2dd9f663-6ed5-49aa-804a-b52c248d6212)
+![main-menu](docs/main-menu.png)
 
 1. Fahrplanauswahl  
     **a.** Der Pfad zum aktuellen Fahrplan, der analysiert werden soll. Das Dropdown enthält eine Liste der 5 letzten Pfade, welche so schnell ausgewählt werden können.  
@@ -34,7 +34,7 @@ Das Hauptmenü ist der Startpunkt des Tools und dient zur Definition von Betrieb
 
 Im Visualisierungs-Tab sieht man die eigentliche Übersicht der Gleisbelegungen.
 
-![visualisation](https://github.com/user-attachments/assets/7083562f-47a8-4714-bbd5-abb0393b14c9)
+![visualisation](docs/visualisation.png)
 
 1. Fahrplanauswahl & Analyse  
     **a.** Im Dropdown kann man eine der zuvor erstellen Betriebsstellen zur Analyse auswählen.  
@@ -46,6 +46,6 @@ Im Visualisierungs-Tab sieht man die eigentliche Übersicht der Gleisbelegungen.
     **b.** Ein durchfahrender Zug wird schraffiert dargestellt.  
     **c.** Alternative Belegungen wird nur mit Rahmen dargestellt.
 
-![visualisation-conflict](https://github.com/user-attachments/assets/a4d630b2-97d0-4d69-888c-fe5025308a2c)
+![visualisation-conflict](docs/visualisation-conflict.png)
 
 Konflikte in der Belegung werden durch das Nebeneinanderstellen der betroffenden Züge dargestellt.
